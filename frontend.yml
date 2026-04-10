@@ -2,8 +2,26 @@
   hosts: all
   become: yes
   tasks:
-    - name: Install Nginx
+    - name: Install NodeJs repo file
+      ansible.builtin.shell: curl -fsSL https://rpm.nodesource.com/setup_22.x | bash -
+
+    - name: Install Nginx and NodeJs
       ansible.builtin.dnf:
-        name: '@nginx:1.26'
+        name:
+           - '@nginx:1.26'
+           - nodejs
         state: present
+
+    - name: Update Nginx Config
+      ansible.builtin.copy:
+        src: nginx.conf
+        dest: /etc/nginx/nginx.conf
+
+    - name: Download and extract Frontend
+      ansible.builtin.unarchive:
+        src: https://raw.githubusercontent.com/raghudevopsb88/wealth-project/main/artifacts/frontend.tar.gz
+        dest: /tmp
+        remote_src: yes
+
+
 
