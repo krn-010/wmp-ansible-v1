@@ -1,6 +1,7 @@
 - name: Frontend Setup
   hosts: all
   become: yes
+
   tasks:
     - name: Install NodeJs repo file
       ansible.builtin.shell: curl -fsSL https://rpm.nodesource.com/setup_22.x | bash -
@@ -8,8 +9,8 @@
     - name: Install Nginx and NodeJs
       ansible.builtin.dnf:
         name:
-           - '@nginx:1.26'
-           - nodejs
+          - '@nginx:1.26'
+          - nodejs
         state: present
 
     - name: Update Nginx Config
@@ -29,7 +30,10 @@
         remote_src: yes
 
     - name: Build Frontend
-      ansible.builtin.shell: npm ci; npm run build; mv dist html
+      ansible.builtin.shell: |
+        npm ci
+        npm run build
+        mv dist html
       args:
         chdir: /usr/share/nginx
 
@@ -38,8 +42,3 @@
         name: nginx
         enabled: true
         state: restarted
-
-
-
-
-
