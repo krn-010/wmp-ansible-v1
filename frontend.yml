@@ -25,7 +25,7 @@
     - name: Download and extract Frontend
       ansible.builtin.unarchive:
         src: https://raw.githubusercontent.com/raghudevopsb88/wealth-project/main/artifacts/frontend.tar.gz
-        dest: /tmp
+        dest: /usr/share/nginx
         remote_src: yes
 
     - name: Build Frontend
